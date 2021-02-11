@@ -1,23 +1,17 @@
-
-window.addEventListener('load', () => {
-   //loadData(itemArray);
-   document.querySelector('#searchButton').addEventListener('click', () => {
+$(document).ready(() => {
+   $('#searchButton').click(() => {
       loadData(Search());
    });
-
 });
 const loadData = (tempArray) => {
    var tr = document.querySelectorAll('table tr');
    for (var i = 1; i < tr.length; i++)
       tr[i].remove();
 
-   if (tempArray != null || tempArray != undefined || typeof (tempArray) === Array) {
-      for (var i = 0; i < tempArray.length; i++) {
-         let temp = tempArray[i];
-         document.querySelector('#myTr').insertAdjacentHTML("afterend",
-            `<tr><td>${temp[0]}</td><td>${temp[1]}</td><td>${temp[2]}</td><td>${temp[3]}</td><td>${temp[4]}</td><td>${temp[5]}</td><td>${temp[6]}</td><td>${temp[7]}</td></tr>`);
-      };
-   }
+   if (tempArray != null || tempArray != undefined || typeof (tempArray) === Array) 
+      for (var i = 0; i < tempArray.length; i++) 
+         document.querySelector('thead').insertAdjacentHTML("afterend",
+            `<tbody><tr><td>${tempArray[i][0]}</td><td>${tempArray[i][1]}</td><td>${tempArray[i][2]}</td><td>${tempArray[i][3]}</td><td>${tempArray[i][4]}</td><td>${tempArray[i][5]}</td><td>${tempArray[i][6]}</td><td>${tempArray[i][7]}</td></tr><tbody>`);
 }
 
 const Search = () => {

@@ -7,5 +7,7 @@ $connectionOptions = array(
 	"CharacterSet"=>"UTF-8"
 );
 //Establishes the connection
+
 $msconn = sqlsrv_connect($serverName, $connectionOptions);
+
 ?>

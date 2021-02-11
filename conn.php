@@ -1,10 +1,15 @@
 <?php
 
 $servername = "newserver.signpost.be";
-$username = "byod_orders";
-$password = "7nG2BimN08f8nYLOHmWtBHohI";
-$dbname = "leermiddel";
-
+$username = "readonlyuser";
+$password = "ColaReadOnly!";
+$dbname = "byod-orders";
+/*
+$servername = "newserver.signpost.be";
+$username = "readonlyuser";
+$password = "ColaReadOnly!";
+$dbname = "byod-orders";
+*/
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

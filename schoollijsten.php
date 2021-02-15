@@ -1,21 +1,18 @@
 <?php
+$title = 'School lijst';
+
 include_once 'conn.php';
 include_once 'mssql-100-conn.php';
-include('head.php');
-include('nav.php');
-include('conn.php');
+include_once 'head.php';
+include_once 'nav.php';
+include_once 'conn.php';
 ?>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <html lang="en">
 <meta charset="UTF-8">
 <title>School lijsten</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="style.css">
-
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <h1>School Lijst</h1>
   </div>
 
@@ -41,7 +38,7 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
     var itemArray = <?php echo json_encode($result->fetch_all()); ?>
   </script>
   <div class="container-fluid">
-    <form id="inptForm">
+    <form id="inptForm" class="container-fluid">
       <div>
         <input class="form-control" type="text" id="gsearch">
         <div class="form-group">
@@ -59,23 +56,24 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
         </div>
       </div>
     </form>
-    <table data-toggle="table" class="table table-striped table-bordered table-sm" id="dtBasic" cellspacing="0" width="100%">
-      <thead>
+    <table data-toggle="table" class="table" id="tableCustom" cellspacing="0" width="100%">
+      <thead class="thead-dark">
         <tr id="myTr">
-          <th class="th-sm" data-sortable="true">Schoolnaam</th>
-          <th class="th-sm" data-sortable="true">Contractnummer</th>
-          <th class="th-sm" data-sortable="true">Levering</th>
-          <th class="th-sm" data-sortable="true">Datum van levering</th>
-          <th class="th-sm" data-sortable="true">Firstname</th>
-          <th class="th-sm" data-sortable="true">Lastname</th>
-          <th class="th-sm" data-sortable="true">Label</th>
-          <th class="th-sm" data-sortable="true">Serienummer</th>
+          <th>Schoolnaam</th>
+          <th>Contractnummer</th>
+          <th>Levering</th>
+          <th>Datum van levering</th>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Label</th>
+          <th>Serienummer</th>
         </tr>
       </thead>
+      <tbody id="values"></tbody>
     </table>
   </div>
 
-  <script src="code.js"></script>
+  <script src="schoollijsten-code.js"></script>
 </body>
-
+<?php include_once 'footer.php';?>
 </html>

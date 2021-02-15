@@ -123,13 +123,13 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 			<?php
 
-			$tsql = "select orkrg.ordernr, orkrg.inv_debtor_name, orddat, refer, artcode, orsrg.instruction,
+			$tsql = "SELECT orkrg.ordernr, orkrg.inv_debtor_name, orddat, refer, artcode, orsrg.instruction,
 		orkrg.freefield1, orkrg.refer1, orkrg.refer2, oms45,
-		(select cmp_name from cicmpy where trim(cmp_code)=trim(freefield1)) as School
-		from orkrg with (nolock)
-		inner join orsrg with (nolock) on orkrg.ordernr=orsrg.ordernr
-		where len(orkrg.freefield1)>0
-		and (artcode like 'H%' or artcode like 'L%') and lengte=0 and ar_soort NOT LIKE 'P' order by orddat";
+		(SELECT cmp_name FROM cicmpy WHERE trim(cmp_code)=trim(freefield1)) AS School
+		FROM orkrg WITH (NOLOCK)
+		INNER JOIN orsrg WITH (NOLOCK) ON orkrg.ordernr=orsrg.ordernr
+		WHERE len(orkrg.freefield1)>0
+		AND (artcode LIKE 'H%' OR artcode LIKE 'L%') AND lengte=0 AND ar_soort NOT LIKE 'P' ORDER BY orddat";
 			$stmt = sqlsrv_query($msconn, $tsql);
 			if ($stmt === false) {
 				die(print_r(sqlsrv_errors(), true));

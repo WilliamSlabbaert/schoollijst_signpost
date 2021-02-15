@@ -1,6 +1,5 @@
 <?php
-$title = 'School lijst';
-
+$title = 'Schoollijst';
 include_once 'conn.php';
 include_once 'mssql-100-conn.php';
 include_once 'head.php';
@@ -11,9 +10,17 @@ include_once 'conn.php';
 <meta charset="UTF-8">
 <title>School lijsten</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  tbody{
+    color: #292929;
+    border-color:#bfbfbf;
+  }
+</style>
+
 <body>
+
   <div class="container-fluid">
-    <h1>School Lijst</h1>
+    <?php echo "<h1 id='title'>{$title}</h1>" ?>
   </div>
 
   <?php
@@ -34,9 +41,7 @@ INNER JOIN `byod-orders`.delivery
 ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
   ?>
 
-  <script>
-    var itemArray = <?php echo json_encode($result->fetch_all()); ?>
-  </script>
+  <script> var itemArray = <?php echo json_encode($result->fetch_all()); ?> </script>
   <div class="container-fluid">
     <form id="inptForm" class="container-fluid">
       <div>
@@ -73,7 +78,8 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
     </table>
   </div>
 
-  <script src="schoollijsten-code.js"></script>
+  <script src="schoollijst-code.js"></script>
 </body>
-<?php include_once 'footer.php';?>
+<?php include_once 'footer.php'; ?>
+
 </html>

@@ -1,12 +1,12 @@
 <head>
-    <?php
-        if (isset($autoRefresh) && $autoRefresh === true){
-            echo '<meta http-equiv="refresh" content="300">';
-        }
-    ?>
+	<?php
+	if (isset($autoRefresh) && $autoRefresh === true) {
+		echo '<meta http-equiv="refresh" content="300">';
+	}
+	?>
 
 	<meta charset="UTF-8">
-	<title><?php echo($title); ?></title>
+	<title><?php echo ($title); ?></title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
@@ -22,12 +22,12 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<!-- Datables Styling -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
 
 
-    <!--  apexcharts  -->
-    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+	<!--  apexcharts  -->
+	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
 	<!-- Select Dropdown Search -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
@@ -45,13 +45,13 @@
 	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 	<!-- Logo -->
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
 
 	<?php
 	if (
-        ($_COOKIE['mode'] == "dark" && !isset($darkModeOff)) ||
-        ($_COOKIE['mode'] == "dark" && isset($darkModeOff) && !$darkModeOff)
-    ) {
+		($_COOKIE['mode'] == "dark" && !isset($darkModeOff)) ||
+		($_COOKIE['mode'] == "dark" && isset($darkModeOff) && !$darkModeOff)
+	) {
 		echo '<link rel="stylesheet" href="css/darkly.css">';
 		echo '<link rel="stylesheet" href="css/custom-dark.css">';
 	} else {
@@ -60,24 +60,29 @@
 	} ?>
 
 	<style media="print">
-		.noPrint{ display: none; }
+		.noPrint {
+			display: none;
+		}
 	</style>
 
-    <script type="application/javascript">
-        $( document ).ready(function() {
-            $("a[href*='#no-access']").click(function () {
-                $('#geenToegangPopup').show().delay(2500).fadeOut(700);
-            });
-        });
-    </script>
+	<script type="application/javascript">
+		$(document).ready(function() {
+			$("a[href*='#no-access']").click(function() {
+				$('#geenToegangPopup').show().delay(2500).fadeOut(700);
+			});
+		});
+	</script>
 
 </head>
-<body <?php if ($title === 'Controle Dashboard'){ echo 'style="padding-top:0px"';} ?>>
+
+<body <?php if ($title === 'Controle Dashboard') {
+			echo 'style="padding-top:0px"';
+		} ?>>
 
 
-<?php
+	<?php
 
-    include('users.php');
+	include('users.php');
 
 	if (isset($_SERVER['AUTH_USER'])) {
 		$user = $_SERVER['AUTH_USER'];
@@ -99,7 +104,7 @@
 		$role = $users[$loginname];
 	}
 
-	if($loginname == "Developer"){
+	if ($loginname == "Developer") {
 		ini_set('display_errors', 1);
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
@@ -127,7 +132,7 @@
 	$schoolNotifications = 0;
 
 	if ($notificationResult->num_rows > 0) {
-		while($rows = $notificationResult->fetch_assoc()) {
+		while ($rows = $notificationResult->fetch_assoc()) {
 			$notifications = $rows['notifications'];
 		}
 	} else {
@@ -135,7 +140,7 @@
 	}
 
 	if ($schoolNotificationResult->num_rows > 0) {
-		while($srows = $schoolNotificationResult->fetch_assoc()) {
+		while ($srows = $schoolNotificationResult->fetch_assoc()) {
 			$schoolNotifications = $srows['notifications'];
 		}
 	} else {
@@ -144,46 +149,46 @@
 
 	$allnotifications = $notifications + $schoolNotifications;
 
-	function mysqli_field_name($result, $field_offset) {
+	function mysqli_field_name($result, $field_offset)
+	{
 		$properties = mysqli_fetch_field_direct($result, $field_offset);
 		return is_object($properties) ? $properties->name : null;
 	}
 
-	function createTable($result, $type) {
-		if($type == 'mysql' || $type == 'leermiddel' || $type == 'byod') {
+	function createTable($result, $type)
+	{
+		if ($type == 'mysql' || $type == 'leermiddel' || $type == 'byod') {
 
 			$table = '<table class="table" id="table"><thead class="thead-dark">';
-			for ($x=0;$x<mysqli_num_fields($result);$x++) $table .= '<th>'.mysqli_field_name($result,$x).'</th>';
+			for ($x = 0; $x < mysqli_num_fields($result); $x++) $table .= '<th>' . mysqli_field_name($result, $x) . '</th>';
 			$table .= '</thead>';
 			while ($rows = mysqli_fetch_assoc($result)) {
 				$table .= '<tr>';
-				foreach ($rows as $row) $table .= '<td>'.$row.'</td>';
+				foreach ($rows as $row) $table .= '<td>' . $row . '</td>';
 				$table .= '</tr>';
 			}
 			$table .= '</table>';
 			//mysql_data_seek($result,0); //if we need to reset the mysql result pointer to 0
 			return $table;
-
-		} else if($type == 'mssql' || $type == 'exact' || $type == 'synergy') {
+		} else if ($type == 'mssql' || $type == 'exact' || $type == 'synergy') {
 
 			$table = '<table class="table" id="table"><thead class="thead-dark">';
-			foreach(sqlsrv_field_metadata($result) as $field) $table .= '<th>'.$field['Name'].'</th>';
+			foreach (sqlsrv_field_metadata($result) as $field) $table .= '<th>' . $field['Name'] . '</th>';
 			$table .= '</thead>';
 			while ($rows = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
 				$table .= '<tr>';
 				foreach ($rows as $row) {
-					if($row instanceof DateTime) {
-						$table .= '<td data-sort="'. strtotime(date_format($row, 'd-m-Y')) .'>'.$row->format('d-m-Y').'</td>';
+					if ($row instanceof DateTime) {
+						$table .= '<td data-sort="' . strtotime(date_format($row, 'd-m-Y')) . '>' . $row->format('d-m-Y') . '</td>';
 					} else {
-						$table .= '<td>'.$row.'</td>';
+						$table .= '<td>' . $row . '</td>';
 					}
 				}
 				$table .= '</tr>';
 			}
 			$table .= '</table>';
 			return $table;
-
 		}
 	}
 
-?>
+	?>

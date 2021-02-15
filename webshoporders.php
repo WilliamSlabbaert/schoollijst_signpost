@@ -118,11 +118,8 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 				<th scope="col">School</th>
 			</tr>
 		</thead>
-
 		<tbody>
-
 			<?php
-
 			$tsql = "SELECT orkrg.ordernr, orkrg.inv_debtor_name, orddat, refer, artcode, orsrg.instruction,
 		orkrg.freefield1, orkrg.refer1, orkrg.refer2, oms45,
 		(SELECT cmp_name FROM cicmpy WHERE trim(cmp_code)=trim(freefield1)) AS School

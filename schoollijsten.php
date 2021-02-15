@@ -56,17 +56,17 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
         </div>
       </div>
     </form>
-    <table data-toggle="table" class="table" id="tableCustom" cellspacing="0" width="100%">
+    <table class="table" id="tableCustom" cellspacing="0" width="100%">
       <thead class="thead-dark">
         <tr id="myTr">
-          <th>Schoolnaam</th>
-          <th>Contractnummer</th>
-          <th>Levering</th>
-          <th>Datum van levering</th>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Label</th>
-          <th>Serienummer</th>
+          <th scope="col">Schoolnaam</th>
+          <th scope="col">Contractnummer</th>
+          <th scope="col">Levering</th>
+          <th scope="col">Datum van levering</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Label</th>
+          <th scope="col">Serienummer</th>
         </tr>
       </thead>
       <tbody id="values"></tbody>

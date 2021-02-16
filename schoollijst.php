@@ -39,10 +39,26 @@ INNER JOIN `byod-orders`.labels
 ON `leermiddel`.tblcontractdetails.instruction = `byod-orders`.labels.signpost_label
 INNER JOIN `byod-orders`.delivery
 ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
+  $data= array();
+  while ($row = $result->fetch_assoc()) {
+    $temp = array();
+    array_push(
+      $temp,
+      $row['SchoolNaam'],
+      $row['ContractVolgnummer'],
+      $row['delivery_number'],
+      $row['StartDatum'],
+      $row['VoornaamLeerling'],
+      $row['NaamLeerling'],
+      $row['label'],
+      $row['serialnumber'],
+    );
+    array_push($data, $temp);
+  }
   ?>
 
   <script>
-    var itemArray = <?php echo json_encode($result->fetch_all()); ?>
+    var itemArray = <?php echo json_encode($data); ?>
   </script>
   <div class="container-fluid">
     <table class="table" id="table" cellspacing="0" width="100%">

@@ -38,20 +38,25 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 		<tbody>
 			<?php
-			$sql = "SELECT NaamLeerling,VoorNaamLeerling,Leerjaar,ContractVolgnummer, SynergyHID ,ExactKlantnummer,SKU,DatumContractOntvangen,DatumVoorschotOntvangen,SchoolNaam,SynergySchoolID
-			FROM leermiddel.`tblcontractdetails`
+			$sql = "SELECT * FROM leermiddel.`tblcontractdetails`
 			LEFT JOIN leermiddel.`tbltoestelcontractdefinitie` ON `ToestelContractDefinitieID` = `tbltoestelcontractdefinitie`.`id`
 			LEFT JOIN leermiddel.`tblschool` ON tblcontractdetails.SchoolID = tblschool.id
 			WHERE `deleted` = 0 AND contractontvangen = 1 AND VoorschotOntvangen IN ('1', '-1') AND tblcontractdetails.StartDatum >= '2020-09-01' AND `lengte` = 0";
 			$result = $conn->query($sql);
 			$ordersCount = 0;
+			$data = array();
 			while ($row = $result->fetch_assoc()) {
-				$ordersCount++;
+				$temp = array();
+				array_push($temp,$row['NaamLeerling'],$row['VoornaamLeerling'],$row['Leerjaar'],$row['ContractVolgnummer'],$row['SynergyHID'],$row['ExactKlantnummer'],$row['SKU']
+				,'<td data-order=' . strtotime($row['DatumContractOntvangen']) . '>' . date("Y-m-d",strtotime($row['DatumContractOntvangen'])) . '</td>'
+				,'<td data-order=' . strtotime($row['DatumVoorschotOntvangen']) . '>' . date("Y-m-d",strtotime($row['DatumVoorschotOntvangen'])) . '</td>'
+				,$row['SchoolNaam']
+				,$row['SynergySchoolID']);
+				array_push($data,$temp);
 			}
-			
 			?>
 			<script>
-				let itemArray = <?php echo json_encode($conn->query($sql)->fetch_all()); ?>
+				let itemArray = <?php echo json_encode($data); ?>
 			</script>
 
 		</tbody>

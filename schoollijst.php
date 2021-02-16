@@ -11,9 +11,9 @@ include_once 'conn.php';
 <title>School lijsten</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-  tbody{
+  tbody {
     color: #292929;
-    border-color:#bfbfbf;
+    border-color: #bfbfbf;
   }
 </style>
 
@@ -41,27 +41,11 @@ INNER JOIN `byod-orders`.delivery
 ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
   ?>
 
-  <script> var itemArray = <?php echo json_encode($result->fetch_all()); ?> </script>
+  <script>
+    var itemArray = <?php echo json_encode($result->fetch_all()); ?>
+  </script>
   <div class="container-fluid">
-    <form id="inptForm" class="container-fluid">
-      <div>
-        <input class="form-control" type="text" id="gsearch">
-        <div class="form-group">
-          <select class="form-control" name="dropdown">
-            <option selected>Schoolnaam</option>
-            <option>Contractnummer</option>
-            <option>Levering</option>
-            <option>Datum van levering</option>
-            <option>Firstname</option>
-            <option>Lastname</option>
-            <option>Label</option>
-            <option>Serienummer</option>
-          </select>
-          <input class="form-control" type="button" id="searchButton" value="Search">
-        </div>
-      </div>
-    </form>
-    <table class="table" id="tableCustom" cellspacing="0" width="100%">
+    <table class="table" id="table" cellspacing="0" width="100%">
       <thead class="thead-dark">
         <tr id="myTr">
           <th scope="col">Schoolnaam</th>
@@ -77,9 +61,9 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
       <tbody id="values"></tbody>
     </table>
   </div>
-
-  <script src="schoollijst-code.js"></script>
 </body>
-<?php include_once 'footer.php'; ?>
+<?php
+include_once 'footer.php';
+?>
 
 </html>

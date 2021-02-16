@@ -17,7 +17,7 @@ include('mssql-100-conn.php');
 
 if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 ?>
-	<h3>Openstaande leermiddel orders op naam</h3>
+	<h3 class="container-fluid">Openstaande leermiddel orders op naam</h3>
 
 	<table class="table" id="table">
 		<thead class="thead-dark">
@@ -37,67 +37,26 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 		</thead>
 
 		<tbody>
-
 			<?php
-
-			$sql = "SELECT *
+			$sql = "SELECT NaamLeerling,VoorNaamLeerling,Leerjaar,ContractVolgnummer, SynergyHID ,ExactKlantnummer,SKU,DatumContractOntvangen,DatumVoorschotOntvangen,SchoolNaam,SynergySchoolID
 			FROM leermiddel.`tblcontractdetails`
 			LEFT JOIN leermiddel.`tbltoestelcontractdefinitie` ON `ToestelContractDefinitieID` = `tbltoestelcontractdefinitie`.`id`
 			LEFT JOIN leermiddel.`tblschool` ON tblcontractdetails.SchoolID = tblschool.id
 			WHERE `deleted` = 0 AND contractontvangen = 1 AND VoorschotOntvangen IN ('1', '-1') AND tblcontractdetails.StartDatum >= '2020-09-01' AND `lengte` = 0";
-
-			$totaal = 0;
 			$result = $conn->query($sql);
-
-			if ($result->num_rows > 0) {
-
-				while ($row = $result->fetch_assoc()) {
-					echo '<tr>';
-					echo '<td>' . $row['NaamLeerling'] . '</td>';
-					echo '<td>' . $row['VoornaamLeerling'] . '</td>';
-					echo '<td>' . $row['Leerjaar'] . '</td>';
-					echo '<td>' . $row['ContractVolgnummer'] . '</td>';
-					echo '<td>' . $row['SynergyHID'] . '</td>';
-					echo '<td>' . $row['ExactKlantnummer'] . '</td>';
-					echo '<td>' . $row['SKU'] . '</td>';
-					echo '<td data-sort="' . strtotime($row['DatumContractOntvangen']) . '">' . $row['DatumContractOntvangen'] . '</td>';
-					echo '<td data-sort="' . strtotime($row['DatumVoorschotOntvangen']) . '">' . $row['DatumVoorschotOntvangen'] . '</td>';
-					echo '<td>' . $row['SchoolNaam'] . '</td>';
-					echo '<td>' . $row['SynergySchoolID'] . '</td>';
-					echo '</tr>';
-					$totaal++;
-				}
-			} else {
-				echo '0 results';
+			$ordersCount = 0;
+			while ($row = $result->fetch_assoc()) {
+				$ordersCount++;
 			}
-
+			
 			?>
-
-			<tr>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">Totaal</th>
-				<td scope="col"><?php echo $totaal; ?></th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-			</tr>
+			<script>
+				let itemArray = <?php echo json_encode($conn->query($sql)->fetch_all()); ?>
+			</script>
 
 		</tbody>
 	</table>
+	>
 <?php
 } elseif ($_GET['type'] == 'webshop' && isset($_GET['namen']) == true) {
 ?>
@@ -132,45 +91,16 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 				die(print_r(sqlsrv_errors(), true));
 			}
 			$totaal = 0;
+			$data = array();
 			while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-				echo '<tr>';
-				echo '<td>' . $row['ordernr'] . '</td>';
-				echo '<td>' . $row['inv_debtor_name'] . '</td>';
-				echo '<td data-sort="' . strtotime(date_format($row['orddat'], 'd-m-Y')) . '">' . date_format($row['orddat'], 'd-m-Y') . '</td>';
-				echo '<td>' . $row['refer'] . '</td>';
-				echo '<td>' . $row['artcode'] . '</td>';
-				echo '<td>' . $row['freefield1'] . '</td>';
-				echo '<td>' . $row['refer1'] . '</td>';
-				echo '<td>' . $row['refer2'] . '</td>';
-				echo '<td>' . $row['oms45'] . '</td>';
-				echo '<td>' . $row['School'] . '</td>';
-				echo '</tr>';
-				$totaal++;
+				$temp = array();
+				array_push($temp, $row['ordernr'], $row['inv_debtor_name'], date_format($row['orddat'], 'Y-m-d'), $row['refer'], $row['artcode'], $row['freefield1'], $row['refer1'], $row['refer2'], $row['oms45'], $row['School']);
+				array_push($data, $temp);
 			}
-
 			?>
-
-			<tr>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">Totaal</th>
-				<td scope="col"><?php echo $totaal; ?></th>
-				<td scope="col">
-					</th>
-			</tr>
-
+			<script>
+				let itemArray = <?php echo json_encode($data); ?>
+			</script>
 		</tbody>
 	</table>
 <?php
@@ -205,6 +135,7 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 			if ($result->num_rows > 0) {
 
+				$data = array();
 				while ($row = $result->fetch_assoc()) {
 
 					$spsku = strtoupper(str_replace('-O', '', str_replace('-B1', '', str_replace('-B2', '', $row['SPSKU']))));
@@ -221,49 +152,25 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 					while ($row2 = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
 						$aantalwebshoporders = $row2['aantal'];
 					}
-
 					if ($aantalwebshoporders != '0') {
-						echo '<tr>';
-						echo '<td>' . $row['orderid'] . '</td>';
-						echo '<td>' . $row['synergyid'] . '</td>';
-						echo '<td>' . $row['warehouse'] . '</td>';
-						echo '<td>' . $row['shipping_date'] . '</td>';
-						echo '<td>' . $row['devicebeschrijving'] . '<br><span class="smalltext">' . $row['SPSKU'] . '</span></td>';
-						echo '<td>' . $aantalwebshoporders . '</td>';
-
-						echo '<td class="">';
+						$temp = array();
+						$orderClicks = '';
 						$orderids = explode(',', $row['alleorderids']);
 						foreach ($orderids as $id) {
-							echo '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
+							$orderClicks .= '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
 						}
-						echo '</td>';
-						echo '</tr>';
+						array_push($temp,$row['orderid'],$row['synergyid'],$row['warehouse'],$row['shipping_date'],$row['devicebeschrijving']." <br><span class=smalltext>".$row['SPSKU']."</span>",$aantalwebshoporders,$orderClicks);
+						array_push($data,$temp);
 					}
-					$totaal += $aantalwebshoporders;
 				}
 			} else {
-
 				echo "0 results";
 			}
-
 			$conn->close();
-
 			?>
-			<tr>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">Totaal</th>
-				<td scope="col"><?php echo $totaal; ?></th>
-				<td scope="col">
-					</th>
-			</tr>
-
+			<script>
+				let itemArray = <?php echo json_encode($data); ?>
+			</script>
 		</tbody>
 	</table>
 <?php
@@ -302,9 +209,16 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 			if ($result->num_rows > 0) {
 
+				$data = array();
 				while ($row = $result->fetch_assoc()) {
 
 					if ($row['leermiddelorders'] != '0') {
+						$temp = array();
+						$orderids = explode(',', $row['alleorderids']);
+						foreach ($orderids as $id) {
+							echo '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
+						}
+						/*
 						echo '<tr>';
 						echo '<td>' . $row['orderid'] . '</td>';
 						echo '<td>' . $row['synergyid'] . '</td>';
@@ -315,12 +229,9 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 
 						echo '<td class="">';
-						$orderids = explode(',', $row['alleorderids']);
-						foreach ($orderids as $id) {
-							echo '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
-						}
+						
 						echo '</td>';
-						echo '</tr>';
+						echo '</tr>';*/
 						$totaal += $row['leermiddelorders'];
 					}
 				}
@@ -351,6 +262,5 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 	</table>
 <?php
 }
-
 include('footer.php');
 ?>

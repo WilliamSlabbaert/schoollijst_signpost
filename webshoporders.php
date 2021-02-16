@@ -47,12 +47,21 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 			$data = array();
 			while ($row = $result->fetch_assoc()) {
 				$temp = array();
-				array_push($temp,$row['NaamLeerling'],$row['VoornaamLeerling'],$row['Leerjaar'],$row['ContractVolgnummer'],$row['SynergyHID'],$row['ExactKlantnummer'],$row['SKU']
-				,'<td data-order=' . strtotime($row['DatumContractOntvangen']) . '>' . date("Y-m-d",strtotime($row['DatumContractOntvangen'])) . '</td>'
-				,'<td data-order=' . strtotime($row['DatumVoorschotOntvangen']) . '>' . date("Y-m-d",strtotime($row['DatumVoorschotOntvangen'])) . '</td>'
-				,$row['SchoolNaam']
-				,$row['SynergySchoolID']);
-				array_push($data,$temp);
+				array_push(
+					$temp,
+					$row['NaamLeerling'],
+					$row['VoornaamLeerling'],
+					$row['Leerjaar'],
+					$row['ContractVolgnummer'],
+					$row['SynergyHID'],
+					$row['ExactKlantnummer'],
+					$row['SKU'],
+					'<td data-order=' . strtotime($row['DatumContractOntvangen']) . '>' . date_format(strtotime($row['DatumContractOntvangen'])) . '</td>',
+					'<td data-order=' . strtotime($row['DatumVoorschotOntvangen']) . '>' . date_format(strtotime($row['DatumVoorschotOntvangen'],"Y-m-d")) . '</td>',
+					$row['SchoolNaam'],
+					$row['SynergySchoolID']
+				);
+				array_push($data, $temp);
 			}
 			?>
 			<script>
@@ -84,8 +93,7 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 		</thead>
 		<tbody>
 			<?php
-			$tsql = "SELECT orkrg.ordernr, orkrg.inv_debtor_name, orddat, refer, artcode, orsrg.instruction,
-		orkrg.freefield1, orkrg.refer1, orkrg.refer2, oms45,
+			$tsql = "SELECT orkrg.ordernr, orkrg.inv_debtor_name, orddat, refer, artcode, orsrg.instruction,orkrg.freefield1, orkrg.refer1, orkrg.refer2, oms45,
 		(SELECT cmp_name FROM cicmpy WHERE trim(cmp_code)=trim(freefield1)) AS School
 		FROM orkrg WITH (NOLOCK)
 		INNER JOIN orsrg WITH (NOLOCK) ON orkrg.ordernr=orsrg.ordernr
@@ -164,8 +172,8 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 						foreach ($orderids as $id) {
 							$orderClicks .= '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
 						}
-						array_push($temp,$row['orderid'],$row['synergyid'],$row['warehouse'],$row['shipping_date'],$row['devicebeschrijving']." <br><span class=smalltext>".$row['SPSKU']."</span>",$aantalwebshoporders,$orderClicks);
-						array_push($data,$temp);
+						array_push($temp, $row['orderid'], $row['synergyid'], $row['warehouse'], $row['shipping_date'], $row['devicebeschrijving'] . " <br><span class=smalltext>" . $row['SPSKU'] . "</span>", $aantalwebshoporders, $orderClicks);
+						array_push($data, $temp);
 					}
 				}
 			} else {

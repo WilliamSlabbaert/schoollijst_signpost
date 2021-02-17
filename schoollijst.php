@@ -15,6 +15,23 @@ include_once 'conn.php';
     color: #292929;
     border-color: #bfbfbf;
   }
+
+  table#table.dataTable tbody tr:hover {
+    background-color: #00ADBD;
+  }
+
+  /*
+  .paginate_button {
+    background-color: transparent;
+  }
+
+  .paginate_button.current {
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(30,30,30,1) 20%, rgba(99,99,99,1) 100%) !important;
+    border: none !important;
+    color:#00ADBD !important;
+    }
+
+    */
 </style>
 
 <body>
@@ -25,6 +42,7 @@ include_once 'conn.php';
 
   <?php
   $result = $conn->query('SELECT `leermiddel`.tblschool.SchoolNaam,
+  `leermiddel`.tblschool.SynergySchoolID,
 `leermiddel`.tblcontractdetails.ContractVolgnummer,
 `byod-orders`.delivery.delivery_number,
 `leermiddel`.tblcontractdetails.StartDatum,
@@ -39,15 +57,14 @@ INNER JOIN `byod-orders`.labels
 ON `leermiddel`.tblcontractdetails.instruction = `byod-orders`.labels.signpost_label
 INNER JOIN `byod-orders`.delivery
 ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
-  $data= array();
+  $data = array();
   while ($row = $result->fetch_assoc()) {
     $temp = array();
-    array_push(
-      $temp,
-      $row['SchoolNaam'],
+    array_push($temp,
+      $row['SynergySchoolID']."<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>",
       $row['ContractVolgnummer'],
       $row['delivery_number'],
-      $row['StartDatum'],
+      "<span Style= visibility:collapse;>".date("Y-m-d",strtotime($row['StartDatum']))."</span><br>".date("d-m-Y",strtotime($row['StartDatum'])),
       $row['VoornaamLeerling'],
       $row['NaamLeerling'],
       $row['label'],
@@ -56,7 +73,6 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
     array_push($data, $temp);
   }
   ?>
-
   <script>
     var itemArray = <?php echo json_encode($data); ?>
   </script>
@@ -81,5 +97,4 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
 <?php
 include_once 'footer.php';
 ?>
-
 </html>

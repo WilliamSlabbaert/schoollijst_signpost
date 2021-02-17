@@ -47,17 +47,15 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 			$data = array();
 			while ($row = $result->fetch_assoc()) {
 				$temp = array();
-				array_push(
-					$temp,
-					$row['NaamLeerling'],
-					$row['VoornaamLeerling'],
-					$row['Leerjaar'],
-					$row['ContractVolgnummer'],
-					$row['SynergyHID'],
+				array_push($temp,$row['NaamLeerling'],
+				    $row['VoornaamLeerling'],
+				    $row['Leerjaar'],
+	                $row['ContractVolgnummer'],
+	 				$row['SynergyHID'],
 					$row['ExactKlantnummer'],
 					$row['SKU'],
-					'<td data-order=' . strtotime($row['DatumContractOntvangen']) . '>' . date_format(strtotime($row['DatumContractOntvangen'])) . '</td>',
-					'<td data-order=' . strtotime($row['DatumVoorschotOntvangen']) . '>' . date_format(strtotime($row['DatumVoorschotOntvangen'],"Y-m-d")) . '</td>',
+					'<span Style= visibility:collapse;>' . date("Y-m-d",strtotime($row['DatumContractOntvangen'])).'</span><br>'.date("d-m-Y",strtotime($row['DatumContractOntvangen'])),
+					'<span Style= visibility:collapse;>' . date("Y-m-d",strtotime($row['DatumVoorschotOntvangen'])).'</span><br>'.date("d-m-Y",strtotime($row['DatumVoorschotOntvangen'])),
 					$row['SchoolNaam'],
 					$row['SynergySchoolID']
 				);

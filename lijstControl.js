@@ -1,9 +1,10 @@
+let tbl= null;
 $(document).ready(() => {
    /*--- Create DataTable  ---*/
-   let tbl = createDataTable();
+   tbl = createDataTable();
    
    /*--- Search event ---*/
-   $('thead input').each((i,element)=>{
+   $('#table tfoot input').each((i,element)=>{
       $(element).on('keyup change',()=>{
          tbl.columns(i).search(element.value).draw();
       });
@@ -20,18 +21,18 @@ const loadData = (tempArray, tbl) => {
 
 /*--- Create DataTable  ---*/
 const createDataTable = () =>{
-   $('#table thead tr').clone(true).appendTo( '#table thead' );
-   $('thead tr:eq(1) th').each((index,element)=>{
-      $(element).html( '<input type="text" class="inputSearch form-control" placeholder="Search" />');
+   $('#table')[0].innerHTML = $('#table')[0].innerHTML + '<tfoot>' + $('#table .thead-dark')[0].innerHTML + '</tfoot>';
+   $('#table tfoot th').each((index,element)=>{
+      let title = $("th")[index].innerHTML;
+      $(element).html( '<input type="text" class="inputSearch form-control" placeholder="Search ' + title + '" /><i class="fa fa-filter icon filtericon"></i> ');
    });
-   $('.inputSearch').css("width","100px");
   
+
 
    let tbl = $('#table').DataTable({
       "paging": true,
       "info": true,
       "searching": true,
-      "pagingType": "full_numbers",
       "bPaginate": false,
       "bLengthChange": false,
       "bFilter": true,

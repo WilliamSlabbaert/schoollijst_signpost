@@ -8,6 +8,31 @@ a{
 
 tr{
 	cursor: help;
+	border-color: gray;
+}
+.even,.odd{
+	color: white;
+	background: #1E1E1E !important;
+	border-color: gray;
+}
+.even span,.odd span{
+	color: #e0e0e0;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+	color: white !important ;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+	color:#00ADBD  !important;
+	font-weight: bold !important;
+    border:1px solid #111 !important;
+    background-color:#585858 !important;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111)) !important;
+    background:-webkit-linear-gradient(top, #585858 0%, #111 100%) !important;
+    background:-moz-linear-gradient(top, #585858 0%, #111 100%) !important;
+    background:-ms-linear-gradient(top, #585858 0%, #111 100%) !important;
+    background:-o-linear-gradient(top, #585858 0%, #111 100%) !important;
+    background:linear-gradient(to bottom, #585858 0%, #111 100%)!important;
 }
 
 .table-primary, th{

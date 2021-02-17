@@ -9,6 +9,22 @@ a{
 tr{
 	cursor: help;
 }
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+	color:#333 !important;
+    background-color:white !important;
+	border: none !important;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #dcdcdc)) !important;
+    background:-webkit-linear-gradient(top, white 0%, #dcdcdc 100%) !important;
+    background:-moz-linear-gradient(top, white 0%, #dcdcdc 100%) !important;
+    background:-ms-linear-gradient(top, white 0%, #dcdcdc 100%) !important;
+    background:-o-linear-gradient(top, white 0%, #dcdcdc 100%) !important;
+    background:linear-gradient(to bottom, white 0%, #dcdcdc 100%)!important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+	color:#00ADBD  !important;
+	font-weight: bold !important;
+}
 
 .table-primary, th{
 	cursor: default;

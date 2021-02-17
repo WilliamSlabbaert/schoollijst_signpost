@@ -22,8 +22,8 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<!-- Datables Styling -->
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-
+	<link rel='stylesheet' type='text/css' href='paging-style.css' />
+	<link rel='stylesheet' type='text/css' href='css/datatable-style.css' />
 
 	<!--  apexcharts  -->
 	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>

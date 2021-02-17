@@ -1,10 +1,11 @@
 <?php
 
-if ($_GET['type'] == 'webshop') {
+if (isset($_GET['type']) == "Webshop") {
 	$title = 'Openstaande Webshop';
 } else {
 	$title = 'Openstaande Leermiddel';
 }
+
 
 if (isset($_GET['namen']) == true) {
 	$title .= ' Namen';
@@ -14,8 +15,7 @@ include('head.php');
 include('nav.php');
 include('conn.php');
 include('mssql-100-conn.php');
-
-if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
+if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 ?>
 	<h3 class="container-fluid">Openstaande leermiddel orders op naam</h3>
 
@@ -32,7 +32,6 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 				<th scope="col">Datum Ondertekend</th>
 				<th scope="col">Datum Betaald</th>
 				<th scope="col">School</th>
-				<th scope="col">School Synergy ID</th>
 			</tr>
 		</thead>
 
@@ -47,17 +46,18 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 			$data = array();
 			while ($row = $result->fetch_assoc()) {
 				$temp = array();
-				array_push($temp,$row['NaamLeerling'],
-				    $row['VoornaamLeerling'],
-				    $row['Leerjaar'],
-	                $row['ContractVolgnummer'],
-	 				$row['SynergyHID'],
+				array_push(
+					$temp,
+					$row['NaamLeerling'],
+					$row['VoornaamLeerling'],
+					$row['Leerjaar'],
+					$row['ContractVolgnummer'],
+					$row['SynergyHID'],
 					$row['ExactKlantnummer'],
 					$row['SKU'],
-					'<span Style= visibility:collapse;>' . date("Y-m-d",strtotime($row['DatumContractOntvangen'])).'</span><br>'.date("d-m-Y",strtotime($row['DatumContractOntvangen'])),
-					'<span Style= visibility:collapse;>' . date("Y-m-d",strtotime($row['DatumVoorschotOntvangen'])).'</span><br>'.date("d-m-Y",strtotime($row['DatumVoorschotOntvangen'])),
-					$row['SchoolNaam'],
-					$row['SynergySchoolID']
+					'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['DatumContractOntvangen'])) . '</span><br>' . date("d-m-Y", strtotime($row['DatumContractOntvangen'])),
+					'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['DatumVoorschotOntvangen'])) . '</span><br>' . date("d-m-Y", strtotime($row['DatumVoorschotOntvangen'])),
+					$row['SynergySchoolID'] . "<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>"
 				);
 				array_push($data, $temp);
 			}
@@ -70,9 +70,9 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 	</table>
 	>
 <?php
-} elseif ($_GET['type'] == 'webshop' && isset($_GET['namen']) == true) {
+} elseif (isset($_GET['type']) == 'webshop' && isset($_GET['namen']) == true) {
 ?>
-	<h3>Openstaande webshop orders op naam</h3>
+	<h3 class="container-fluid" >Openstaande webshop orders op naam</h3>
 
 	<table class="table" id="table">
 		<thead class="thead-dark">
@@ -105,7 +105,19 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 			$data = array();
 			while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
 				$temp = array();
-				array_push($temp, $row['ordernr'], $row['inv_debtor_name'], date_format($row['orddat'], 'Y-m-d'), $row['refer'], $row['artcode'], $row['freefield1'], $row['refer1'], $row['refer2'], $row['oms45'], $row['School']);
+				array_push(
+					$temp,
+					$row['ordernr'],
+					$row['inv_debtor_name'],
+					'<span Style= visibility:collapse;>' . date_format($row['orddat'], 'Y-m-d') . "</span><br>" . date_format($row['orddat'], 'd-m-Y'),
+					$row['refer'],
+					$row['artcode'],
+					$row['freefield1'],
+					$row['refer1'],
+					$row['refer2'],
+					$row['oms45'],
+					$row['School']
+				);
 				array_push($data, $temp);
 			}
 			?>
@@ -117,8 +129,8 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 <?php
 } elseif (isset($_GET['type']) == 'webshop') {
 ?>
-	<h3>Openstaande webshop orders</h3>
-	<p style="color:red;">Mits de SPSKU in de webshop klopt</p>
+	<h3 class="container-fluid" >Openstaande webshop orders</h3>
+	<p class="container-fluid" style="color:red;">Mits de SPSKU in de webshop klopt</p>
 
 	<table class="table" id="table">
 		<thead class="thead-dark">
@@ -170,7 +182,23 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 						foreach ($orderids as $id) {
 							$orderClicks .= '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
 						}
-						array_push($temp, $row['orderid'], $row['synergyid'], $row['warehouse'], $row['shipping_date'], $row['devicebeschrijving'] . " <br><span class=smalltext>" . $row['SPSKU'] . "</span>", $aantalwebshoporders, $orderClicks);
+
+						$tempValues = array("Processing...", "Processing...");
+						if (strlen(str_replace(' ', '', $row['shipping_date'])) !== 1) {
+							$tempDate = date('Y-m-d', strtotime($row['shipping_date']));
+							$tempValues[0] = date('Y-m-d', strtotime($row['shipping_date']));
+							$tempValues[1] = date('d-m-Y', strtotime($row['shipping_date']));
+						}
+						array_push(
+							$temp,
+							$row['orderid'],
+							$row['synergyid'],
+							$row['warehouse'],
+							'<span Style= visibility:collapse;>' . $tempValues[0] . "</span><br>" . $tempValues[1],
+							$row['devicebeschrijving'] . " <br><span class=smalltext>" . $row['SPSKU'] . "</span>",
+							$aantalwebshoporders,
+							$orderClicks
+						);
 						array_push($data, $temp);
 					}
 				}
@@ -187,8 +215,8 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 <?php
 } else {
 ?>
-	<h3>Openstaande leermiddel orders</h3>
-	<p style="color:red;">Mits de SPSKU in de leermiddel klopt</p>
+	<h3 class="container-fluid" >Openstaande leermiddel orders</h3>
+	<p  class="container-fluid" style="color:red;">Mits de SPSKU in de leermiddel klopt</p>
 
 	<table class="table" id="table">
 		<thead class="thead-dark">
@@ -222,53 +250,41 @@ if ($_GET['type'] == 'leermiddel' && isset($_GET['namen']) == true) {
 
 				$data = array();
 				while ($row = $result->fetch_assoc()) {
+					$temp = array();
 
 					if ($row['leermiddelorders'] != '0') {
-						$temp = array();
+						array_push(
+							$temp,
+							$row['orderid'],
+							$row['synergyid'],
+							$row['warehouse'],
+							'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['shipping_date'])) . "</span><br>" . date("d-m-Y", strtotime($row['shipping_date'])),
+							$row['devicebeschrijving'] . '<br><span class="smalltext">' . $row['SPSKU'] . '</span></td>',
+							$row['leermiddelorders']
+						);
+
+
+						$order = null;
 						$orderids = explode(',', $row['alleorderids']);
 						foreach ($orderids as $id) {
-							echo '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
+							$order .= '<a href="' . hasAccessForUrl('delivery.php?orderid=' . $id . '', false) . '" target="_blank"><button type="button" class="btn btn-secondary" style="height:25px !important;width:200px !important;padding:0px;margin:5px 0px;">Order ' . $id . ' bekijken</button></a><br>';
 						}
-						/*
-						echo '<tr>';
-						echo '<td>' . $row['orderid'] . '</td>';
-						echo '<td>' . $row['synergyid'] . '</td>';
-						echo '<td>' . $row['warehouse'] . '</td>';
-						echo '<td>' . $row['shipping_date'] . '</td>';
-						echo '<td>' . $row['devicebeschrijving'] . '<br><span class="smalltext">' . $row['SPSKU'] . '</span></td>';
-						echo '<td>' . $row['leermiddelorders'] . '</td>';
-
-
-						echo '<td class="">';
-						
-						echo '</td>';
-						echo '</tr>';*/
+						array_push($temp, $order);
 						$totaal += $row['leermiddelorders'];
+						array_push($data, $temp);
 					}
 				}
 			} else {
 
 				echo "0 results";
 			}
-
 			$conn->close();
-
 			?>
+			<script>
+				let itemArray = <?php echo json_encode($data); ?>
+			</script>
+			<h5 class="container-fluid">Totaal leermiddel orders: <?php echo $totaal; ?></h5>
 
-			<tr>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">
-					</th>
-				<td scope="col">Totaal</th>
-				<td scope="col"><?php echo $totaal; ?></th>
-				<td scope="col">
-					</th>
-			</tr>
 		</tbody>
 	</table>
 <?php

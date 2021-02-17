@@ -10,30 +10,6 @@ include_once 'conn.php';
 <meta charset="UTF-8">
 <title>School lijsten</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-  tbody {
-    color: #292929;
-    border-color: #bfbfbf;
-  }
-
-  table#table.dataTable tbody tr:hover {
-    background-color: #00ADBD;
-  }
-
-  /*
-  .paginate_button {
-    background-color: transparent;
-  }
-
-  .paginate_button.current {
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(30,30,30,1) 20%, rgba(99,99,99,1) 100%) !important;
-    border: none !important;
-    color:#00ADBD !important;
-    }
-
-    */
-</style>
-
 <body>
 
   <div class="container-fluid">

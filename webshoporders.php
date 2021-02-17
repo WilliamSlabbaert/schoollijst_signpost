@@ -6,7 +6,6 @@ if (isset($_GET['type']) == "Webshop") {
 	$title = 'Openstaande Leermiddel';
 }
 
-
 if (isset($_GET['namen']) == true) {
 	$title .= ' Namen';
 }
@@ -262,7 +261,6 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 							$row['devicebeschrijving'] . '<br><span class="smalltext">' . $row['SPSKU'] . '</span></td>',
 							$row['leermiddelorders']
 						);
-
 
 						$order = null;
 						$orderids = explode(',', $row['alleorderids']);

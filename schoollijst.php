@@ -10,6 +10,7 @@ include_once 'conn.php';
 <meta charset="UTF-8">
 <title>School lijsten</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <body>
 
   <div class="container-fluid">
@@ -17,7 +18,7 @@ include_once 'conn.php';
   </div>
 
   <?php
-  $result = $conn->query('SELECT `leermiddel`.tblschool.SchoolNaam,
+  if ($result = $conn->query('SELECT `leermiddel`.tblschool.SchoolNaam,
   `leermiddel`.tblschool.SynergySchoolID,
 `leermiddel`.tblcontractdetails.ContractVolgnummer,
 `byod-orders`.delivery.delivery_number,
@@ -32,21 +33,23 @@ ON `leermiddel`.tblcontractdetails.SchoolID = `leermiddel`.tblschool.id
 INNER JOIN `byod-orders`.labels
 ON `leermiddel`.tblcontractdetails.instruction = `byod-orders`.labels.signpost_label
 INNER JOIN `byod-orders`.delivery
-ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
-  $data = array();
-  while ($row = $result->fetch_assoc()) {
-    $temp = array();
-    array_push($temp,
-      $row['SynergySchoolID']."<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>",
-      $row['ContractVolgnummer'],
-      $row['delivery_number'],
-      "<span Style= visibility:collapse;>".date("Y-m-d",strtotime($row['StartDatum']))."</span><br>".date("d-m-Y",strtotime($row['StartDatum'])),
-      $row['VoornaamLeerling'],
-      $row['NaamLeerling'],
-      $row['label'],
-      $row['serialnumber'],
-    );
-    array_push($data, $temp);
+ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;')) {
+    $data = array();
+    while ($row = $result->fetch_assoc()) {
+      $temp = array();
+      array_push(
+        $temp,
+        $row['SynergySchoolID'] . "<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>",
+        $row['ContractVolgnummer'],
+        $row['delivery_number'],
+        "<span Style= visibility:collapse;>" . date("Y-m-d", strtotime($row['StartDatum'])) . "</span><br>" . date("d-m-Y", strtotime($row['StartDatum'])),
+        $row['VoornaamLeerling'],
+        $row['NaamLeerling'],
+        $row['label'],
+        $row['serialnumber'],
+      );
+      array_push($data, $temp);
+    }
   }
   ?>
   <script>
@@ -73,4 +76,5 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;');
 <?php
 include_once 'footer.php';
 ?>
+
 </html>

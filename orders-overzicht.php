@@ -36,7 +36,7 @@ include_once 'orders-overzicht-query.php';
             <tbody id="values"></tbody>
         </table>
     </div>
-    <script type="text/javascript" src="treeMap.js"></script>
+    <script type="text/javascript" src="treeMap-light.js"></script>;
 </body>
 <?php
 include_once 'footer.php';

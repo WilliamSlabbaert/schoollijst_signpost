@@ -18,6 +18,10 @@ tr{
 .even span,.odd span{
 	color: #e0e0e0;
 }
+#treeMapLocation{
+	color: black !important;
+	border-color: #222222 !important;
+}
 .dataTables_wrapper .dataTables_paginate .paginate_button{
 	color: white !important ;
 }

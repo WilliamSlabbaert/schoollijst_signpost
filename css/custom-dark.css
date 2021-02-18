@@ -18,7 +18,7 @@ tr{
 .even span,.odd span{
 	color: #e0e0e0;
 }
-#treeMapLocation{
+#treeMapLocation,#chartLocation{
 	color: black !important;
 	border-color: #222222 !important;
 }

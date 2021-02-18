@@ -55,9 +55,11 @@
 		($_COOKIE['mode'] == "dark" && isset($darkModeOff) && !$darkModeOff)
 	) {
 		echo '<link rel="stylesheet" href="css/darkly.css">';
+		echo '<script type="text/javascript" src="treeMap-dark.js"></script>';
 		echo '<link rel="stylesheet" href="css/custom-dark.css">';
 	} else {
 		echo '<link rel="stylesheet" href="css/flatly.css">';
+        echo '<script type="text/javascript" src="treeMap-light.js"></script>';
 		echo '<link rel="stylesheet" href="css/custom-light.css">';
 	} ?>
 

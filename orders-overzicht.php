@@ -19,7 +19,13 @@ include_once 'orders-overzicht-query.php';
         let itemArray2 = <?php echo json_encode($data2); ?>;
     </script>
     <h4 class="container-fluid">Aantal orders per school</h4>
-    <div id="treeMapLocation" class="container-fluid"></div>
+
+    <div class="container-fluid">
+        <div id="treeMapLocation" class="container-fluid">
+        </div>
+        <div id="chartLocation" class="container-fluid">
+        </div>
+    </div>
 
     <h4 class="container-fluid">Openstaande orders</h4>
     <div class="container-fluid">
@@ -27,7 +33,6 @@ include_once 'orders-overzicht-query.php';
             <thead class="thead-dark">
                 <tr id="myTr">
                     <th scope="col">School</th>
-                    <th scope="col">Refer</th>
                     <th scope="col">Order datum</th>
                     <th scope="col">Email</th>
                     <th scope="col">Artikel</th>
@@ -36,7 +41,7 @@ include_once 'orders-overzicht-query.php';
             <tbody id="values"></tbody>
         </table>
     </div>
-    <script type="text/javascript" src="treeMap-light.js"></script>;
+    <script src="chartMap.js"></script>
 </body>
 <?php
 include_once 'footer.php';

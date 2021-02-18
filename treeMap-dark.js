@@ -33,6 +33,7 @@ $(document).ready(() => {
             show: true,
             curve: 'smooth',
             lineCap: 'butt',
+            colors: ['#222222'],
             width: 2,
             dashArray: 0,      
         }

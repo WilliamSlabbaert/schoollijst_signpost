@@ -22,15 +22,14 @@ include_once 'mssql-100-conn.php';
     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
         $temp = array();
         array_push($temp, 
-        explode("|", $row['docnumber'])[0]."<br><span class=smalltext>" . explode("|", $row['docnumber'])[1] . "</span>", 
-        $row['refer'], 
+        explode("|", $row['docnumber'])[0]."<br><span class=smalltext>" . explode("|", $row['docnumber'])[1] . "</span>",  
         '<span class="dateCollapse" Style=position:absolute;>' .$row['orddat']->format('Y-m-d').'</span>'.$row['orddat']->format('d-m-Y'), 
         $row['ord_contactemail'],
         $row['artcode']."<br><span class=smalltext>" . $row['oms45'] . "</span>");
         array_push($data, $temp);
     }
 
-    $tsql2 = "SELECT RIGHT(orkrg.docnumber,LEN(orkrg.docnumber) - charindex('|', orkrg.docnumber)) AS x ,COUNT(*) AS y
+    $tsql2 = "SELECT RIGHT(orkrg.docnumber,LEN(orkrg.docnumber) - charindex('|', orkrg.docnumber)) AS x ,COUNT(*) AS y,SUM(orkrg.bdr_ev_val) AS total 
     FROM orkrg 
         LEFT OUTER JOIN cicmpy ON orkrg.debnr = cicmpy.debnr AND orkrg.debnr IS NOT NULL AND cicmpy.debnr IS NOT NULL  
         WHERE ( orkrg.ord_soort = 'V'  AND ISNULL(orkrg.selcode,'') <> '2' 
@@ -43,7 +42,7 @@ include_once 'mssql-100-conn.php';
         AND orkrg.docnumber  NOT LIKE '%annulatie%'
         AND orkrg.docnumber  NOT LIKE '%B-2020-18650%'
         AND orkrg.docnumber  NOT LIKE '%500056218 1276715%'
-        GROUP BY RIGHT(orkrg.docnumber,LEN(orkrg.docnumber) - charindex('|', orkrg.docnumber))";
+        GROUP BY RIGHT(orkrg.docnumber,LEN(orkrg.docnumber) - charindex('|', orkrg.docnumber));";
     
     $stmt2 = sqlsrv_query($msconn, $tsql2);
     if ($stmt2 === false) {
@@ -53,6 +52,3 @@ include_once 'mssql-100-conn.php';
     while ($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
         array_push($data2,$row2);
     }
-    
-    
-?>

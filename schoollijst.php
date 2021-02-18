@@ -42,11 +42,11 @@ ON `byod-orders`.labels.orderid = `byod-orders`.delivery.orderid;')) {
         $row['SynergySchoolID'] . "<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>",
         $row['ContractVolgnummer'],
         $row['delivery_number'],
-        "<span Style= visibility:collapse;>" . date("Y-m-d", strtotime($row['StartDatum'])) . "</span><br>" . date("d-m-Y", strtotime($row['StartDatum'])),
+        "<span class='dateCollapse' Style=position:absolute;>" . date("Y-m-d", strtotime($row['StartDatum'])) . "</span>" . date("d-m-Y", strtotime($row['StartDatum'])),
         $row['VoornaamLeerling'],
         $row['NaamLeerling'],
         $row['label'],
-        $row['serialnumber'],
+        $row['serialnumber']
       );
       array_push($data, $temp);
     }

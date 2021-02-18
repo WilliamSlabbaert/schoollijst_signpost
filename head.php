@@ -22,12 +22,14 @@
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<!-- Datables Styling -->
-	<link rel='stylesheet' type='text/css' href='paging-style.css' />
+	<link rel='stylesheet' type='text/css' href='css/paging-style.css' />
 	<link rel='stylesheet' type='text/css' href='css/datatable-style.css' />
 
 	<!--  apexcharts  -->
 	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 	<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	
 
 	<!-- Select Dropdown Search -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
@@ -78,8 +80,6 @@
 <body <?php if ($title === 'Controle Dashboard') {
 			echo 'style="padding-top:0px"';
 		} ?>>
-
-
 	<?php
 
 	include('users.php');

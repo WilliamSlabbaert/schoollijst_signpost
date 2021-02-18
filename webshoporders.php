@@ -54,8 +54,8 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 					$row['SynergyHID'],
 					$row['ExactKlantnummer'],
 					$row['SKU'],
-					'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['DatumContractOntvangen'])) . '</span><br>' . date("d-m-Y", strtotime($row['DatumContractOntvangen'])),
-					'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['DatumVoorschotOntvangen'])) . '</span><br>' . date("d-m-Y", strtotime($row['DatumVoorschotOntvangen'])),
+					'<span class="dateCollapse" Style=position:absolute;>' . date("Y-m-d", strtotime($row['DatumContractOntvangen'])) . '</span>' . date("d-m-Y", strtotime($row['DatumContractOntvangen'])),
+					'<span class="dateCollapse" Style=position:absolute;>' . date("Y-m-d", strtotime($row['DatumVoorschotOntvangen'])) . '</span>' . date("d-m-Y", strtotime($row['DatumVoorschotOntvangen'])),
 					$row['SynergySchoolID'] . "<br><span class=smalltext>" . $row['SchoolNaam'] . "</span>"
 				);
 				array_push($data, $temp);
@@ -108,7 +108,7 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 					$temp,
 					$row['ordernr'],
 					$row['inv_debtor_name'],
-					'<span Style= visibility:collapse;>' . date_format($row['orddat'], 'Y-m-d') . "</span><br>" . date_format($row['orddat'], 'd-m-Y'),
+					'<span class="dateCollapse" Style=position:absolute;>' . date_format($row['orddat'], 'Y-m-d') . "</span>" . date_format($row['orddat'], 'd-m-Y'),
 					$row['refer'],
 					$row['artcode'],
 					$row['freefield1'],
@@ -193,7 +193,7 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 							$row['orderid'],
 							$row['synergyid'],
 							$row['warehouse'],
-							'<span Style= visibility:collapse;>' . $tempValues[0] . "</span><br>" . $tempValues[1],
+							'<span class="dateCollapse" Style=position:absolute;>' . $tempValues[0] . "</span>" . $tempValues[1],
 							$row['devicebeschrijving'] . " <br><span class=smalltext>" . $row['SPSKU'] . "</span>",
 							$aantalwebshoporders,
 							$orderClicks
@@ -257,7 +257,7 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 							$row['orderid'],
 							$row['synergyid'],
 							$row['warehouse'],
-							'<span Style= visibility:collapse;>' . date("Y-m-d", strtotime($row['shipping_date'])) . "</span><br>" . date("d-m-Y", strtotime($row['shipping_date'])),
+							'<span class="dateCollapse" Style=position:absolute;>' . date("Y-m-d", strtotime($row['shipping_date'])) . "</span>" . date("d-m-Y", strtotime($row['shipping_date'])),
 							$row['devicebeschrijving'] . '<br><span class="smalltext">' . $row['SPSKU'] . '</span></td>',
 							$row['leermiddelorders']
 						);

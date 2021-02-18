@@ -26,8 +26,6 @@ const createDataTable = () =>{
       let title = $("th")[index].innerHTML;
       $(element).html( '<input type="text" class="inputSearch form-control" placeholder="Search ' + title + '" /><i class="fa fa-filter icon filtericon"></i> ');
    });
-  
-
 
    let tbl = $('#table').DataTable({
       "paging": true,

@@ -3,6 +3,9 @@ $(document).ready(() => {
         series: [{
             data: []
         }],
+        legend: {
+            show: false,
+        },
         chart: {
             type: 'bar',
             height: 350,
@@ -16,7 +19,6 @@ $(document).ready(() => {
                 distributed: true
             }
         },
-
         dataLabels: {
             enabled: false
         },
@@ -29,6 +31,7 @@ $(document).ready(() => {
             categories:[]
         },
         tooltip: {
+            theme: 'dark',
             style: {
                 fontSize: '16px',
                 fontFamily: undefined

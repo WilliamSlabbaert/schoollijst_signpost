@@ -5,11 +5,20 @@ include_once 'head.php';
 include_once 'nav.php';
 include_once 'conn.php';
 include_once 'orders-overzicht-query.php';
-
 ?>
 <html lang="en">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
+<?php
+	if (
+		($_COOKIE['mode'] == "dark" && !isset($darkModeOff)) ||
+		($_COOKIE['mode'] == "dark" && isset($darkModeOff) && !$darkModeOff)
+	) {
+		echo '<script src="chartMap-dark.js"></script>';
+	} else {
+		echo '<script src="chartMap-light.js"></script>';
+	} ?>
 
 <body>
     <h1 class="container-fluid"><?php echo $title; ?></h1>
@@ -20,13 +29,12 @@ include_once 'orders-overzicht-query.php';
     </script>
     <h4 class="container-fluid">Aantal orders per school</h4>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="chart-holder" Style="display:flex">
         <div id="treeMapLocation" class="container-fluid">
         </div>
         <div id="chartLocation" class="container-fluid">
         </div>
     </div>
-
     <h4 class="container-fluid">Openstaande orders</h4>
     <div class="container-fluid">
         <table class="table" id="table" cellspacing="0" width="100%">
@@ -41,7 +49,6 @@ include_once 'orders-overzicht-query.php';
             <tbody id="values"></tbody>
         </table>
     </div>
-    <script src="chartMap.js"></script>
 </body>
 <?php
 include_once 'footer.php';

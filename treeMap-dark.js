@@ -12,6 +12,7 @@ $(document).ready(() => {
             }
         },
         tooltip: {
+            theme: 'dark',
             style: {
                 fontSize: '16px',
                 fontFamily: undefined

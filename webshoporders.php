@@ -229,7 +229,6 @@ if (isset($_GET['type']) == 'leermiddel' && isset($_GET['namen']) == true) {
 				<th scope="col"></th>
 			</tr>
 		</thead>
-
 		<tbody>
 			<?php
 			$totaal = 0;

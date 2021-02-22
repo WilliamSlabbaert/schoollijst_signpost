@@ -52,3 +52,4 @@ include_once 'mssql-100-conn.php';
     while ($row2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)) {
         array_push($data2,$row2);
     }
+?>
